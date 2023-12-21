@@ -15,6 +15,6 @@ body {
     background: #fafafa;
 }
 
-.swagger-ui .info {
+.swagger-ui .info>.main>.link {
     display: none;
 }
