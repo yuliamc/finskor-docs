@@ -34,7 +34,8 @@ info:
 
     ## Authentication
 
-    To consume our api you need to have x-api-key from our team. Contact us from [our website](https://www.finskor.com).
+    To consume our api you need to have x-api-key from our team as headers when consuming our API.
+    Contact us from [our website](https://www.finskor.com) to get the api key.
 
 servers:
   - description: Staging
