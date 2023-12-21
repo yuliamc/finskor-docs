@@ -28,29 +28,32 @@
             "sec0": []
         }
     ],
+    "tags": [
+        {
+            "name": "bank-statement-analysis"
+        }
+    ],
     "paths": {
         "/upload": {
             "post": {
+                "tags": [
+                    "bank-statement-analysis"
+                ],
                 "summary": "Upload",
                 "description": "Upload bank statement files.",
                 "operationId": "upload",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "type": "object",
                                 "required": [
-                                    "ref_id",
                                     "file"
                                 ],
                                 "properties": {
                                     "analysis_id": {
                                         "type": "string",
                                         "description": "The existing analysis id from previous upload if you need to merge the analysis from various bank statement files."
-                                    },
-                                    "ref_id": {
-                                        "type": "string",
-                                        "description": "The reference id for this analysis."
                                     },
                                     "file": {
                                         "type": "string",
@@ -111,6 +114,9 @@
         },
         "/analyze/{analysis_id}": {
             "post": {
+                "tags": [
+                    "bank-statement-analysis"
+                ],
                 "summary": "Analyze",
                 "description": "Analyze bank statement files that have been uploaded before.",
                 "operationId": "analyze",
