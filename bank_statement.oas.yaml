@@ -91,7 +91,7 @@ paths:
                     {
                       "message": "File has been uploaded successfully.",
                       "data": {
-                        "analysis_id": "<string>"
+                        "analysis_id": "42d52bfc20f24a2ab3a55e8369599057"
                       }
                     }
               schema:
@@ -155,7 +155,7 @@ paths:
                     {
                       "message": "Bank statement analysis is in progress.",
                       "data": {
-                        "analysis_id": "<string>",
+                        "analysis_id": "42d52bfc20f24a2ab3a55e8369599057",
                         "status": "IN_PROGRESS"
                       }
                     }
