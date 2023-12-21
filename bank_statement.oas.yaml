@@ -217,16 +217,16 @@ paths:
         ### Callback Bank Statement Analysis
 
         ```shell
-        curl --location 'https://yourdomain.com/path/to/your/callback/url' \
-        --header 'Content-Type: application/json' \
-        --header 'Accept: application/json' \
-        --data '{
-            "data": {
-                "analysis_id": "42d52bfc20f24a2ab3a55e8369599057",
-                "file_url": "https://link/to/the/file/result/url",
-                "status": "COMPLETED"
-            }
-        }'
+        curl -X POST 'https://yourdomain.com/path/to/your/callback/url' \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/json' \
+          --data '{
+              "data": {
+                  "analysis_id": "42d52bfc20f24a2ab3a55e8369599057",
+                  "file_url": "https://link/to/the/file/result/url",
+                  "status": "COMPLETED"
+              }
+          }'
         ```
       responses:
         '200':
