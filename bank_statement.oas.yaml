@@ -1,0 +1,144 @@
+openapi: 3.0.0
+info:
+  title: Bank Statement Analysis
+  version: '1.0'
+servers:
+  - description: Staging
+    url: https://stg-api.finskor.com/app/bank-statement
+  - description: Production
+    url: https://api.finskor.com/app/bank-statement
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      name: x-api-key
+security:
+  - sec0: []
+tags:
+  - name: bank-statement-analysis
+paths:
+  /upload:
+    post:
+      tags:
+        - bank-statement-analysis
+      summary: Upload
+      description: Upload bank statement files.
+      operationId: upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                analysis_id:
+                  type: string
+                  description: The existing analysis id from previous upload if you need to merge the analysis from various bank statement files.
+                file:
+                  type: string
+                  description: The bank statement file.
+                  format: binary
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n\t\"data\": {\n  \t\"analysis_id\": \"<string>\"\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      analysis_id:
+                        type: string
+                        example:
+                          - <string>
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+  /analyze/{analysis_id}:
+    post:
+      tags:
+        - bank-statement-analysis
+      summary: Analyze
+      description: Analyze bank statement files that have been uploaded before.
+      operationId: analyze
+      parameters:
+        - name: analysis_id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n\t\"data\": {\n  \t\"analysis_id\": \"<string>\"\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      analysis_id:
+                        type: string
+                        example:
+                          - <string>
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: '{}'
+              schema:
+                type: object
+                properties: {}
+      deprecated: false
+  /https://yourdomain.com/path/to/your/callback/url:
+    post:
+      tags:
+        - bank-statement-analysis
+      description: |
+        When we finish analyzing the bank statement in our system, we will notify / send you the callback to inform you about the result.
+        
+        You will need to provide and register the callback url with **POST** method to our system.
+
+        ### Callback Bank Statement Analysis
+
+        ```shell
+        curl --location 'https://yourdomain.com/path/to/your/callback/url' \
+        --header 'Content-Type: application/json' \
+        --header 'Accept: application/json' \
+        --data '{
+            "data": {
+                "file_url": "<string>",
+                "analysis_id": "<string>"
+            }
+        }'
+        ```
+      responses:
+        '200':
+          description: '200'
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+  samples-enabled: true
+x-readme-fauxas: true
