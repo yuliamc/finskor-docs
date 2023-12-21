@@ -9,7 +9,7 @@ info:
 
     ## Key Features
 
-    1. Analysis of Financial Data
+    1. Analysis of Financial Data  
       The API performs an in-depth analysis of bank statement files, extracting key financial metrics such as cash flow, revenue, and expenses.
     2. Insight Generation  
       Generate valuable insights from the bank statement data, providing a clear overview of the financial performance.
@@ -22,7 +22,7 @@ info:
 
     1. File Upload  
       Start by uploading the bank statement files using the designated endpoint.  
-      Retrieve the analysis_id provided in the API response.
+      Then retrieve the analysis_id provided in the API response.
     2. Analysis Execution  
       Use the obtained analysis_id to execute the analysis and extract financial insights.  
       The API will process the uploaded bank statement files and generate a comprehensive summary.
@@ -243,6 +243,8 @@ paths:
       responses:
         '200':
           description: 'Success response'
+        '400':
+          description: 'Bad response'
 x-readme:
   headers: []
   explorer-enabled: true
