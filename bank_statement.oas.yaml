@@ -31,6 +31,11 @@ info:
     3. Result Notification  
       Receive the analysis results via a callback URL registered during the initial upload.  
       The results include a breakdown of cash flow, revenue, expenses, and other pertinent financial details.
+
+    ## Authentication
+
+    To consume our api you need to have x-api-key from our team. Contact us from [our website](https://www.finskor.com).
+
 servers:
   - description: Staging
     url: https://stg-api.finskor.com/app/bank-statement
@@ -83,7 +88,7 @@ paths:
                 Result:
                   value: |
                     {
-                      "message": "File has been uploaded successfully."
+                      "message": "File has been uploaded successfully.",
                       "data": {
                         "analysis_id": "<string>"
                       }
