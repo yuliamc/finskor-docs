@@ -9,12 +9,10 @@ info:
 
     ## Key Features
 
-    1. Analysis of Financial Data  
+    1. Analysis of Financial Data
       The API performs an in-depth analysis of bank statement files, extracting key financial metrics such as cash flow, revenue, and expenses.
-
     2. Insight Generation  
       Generate valuable insights from the bank statement data, providing a clear overview of the financial performance.
-
     3. Summary Report  
       Receive a concise summary report that encapsulates the essential financial information derived from the bank statement analysis.
 
@@ -36,6 +34,11 @@ info:
 
     To consume our api you need to have x-api-key from our team as headers when consuming our API.
     Contact us from [our website](https://www.finskor.com) to get the api key.
+
+    ## Servers
+    
+    We have two servers that are Staging and Production.
+    Staging is for development purpose and Production is for live purpose.
 
 servers:
   - description: Staging
