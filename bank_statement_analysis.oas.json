@@ -1,0 +1,182 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Bank Statement Analysis",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "description": "Staging",
+            "url": "https://stg-api.finskor.com/app/bank-statement"
+        },
+        {
+            "description": "Production",
+            "url": "https://api.finskor.com/app/bank-statement"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "sec0": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "x-api-key"
+            }
+        }
+    },
+    "security": [
+        {
+            "sec0": []
+        }
+    ],
+    "paths": {
+        "/upload": {
+            "post": {
+                "summary": "Upload",
+                "description": "Upload bank statement files.",
+                "operationId": "upload",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "ref_id",
+                                    "file"
+                                ],
+                                "properties": {
+                                    "analysis_id": {
+                                        "type": "string",
+                                        "description": "The existing analysis id from previous upload if you need to merge the analysis from various bank statement files."
+                                    },
+                                    "ref_id": {
+                                        "type": "string",
+                                        "description": "The reference id for this analysis."
+                                    },
+                                    "file": {
+                                        "type": "string",
+                                        "description": "The bank statement file.",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "200",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{\n\t\"data\": {\n  \t\"analysis_id\": \"<string>\"\n  }\n}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "analysis_id": {
+                                                    "type": "string",
+                                                    "example": "<string>"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "400",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/analyze/{analysis_id}": {
+            "post": {
+                "summary": "Analyze",
+                "description": "Analyze bank statement files that have been uploaded before.",
+                "operationId": "analyze",
+                "parameters": [
+                    {
+                        "name": "analysis_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "200",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{\n\t\"data\": {\n  \t\"analysis_id\": \"<string>\"\n  }\n}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "analysis_id": {
+                                                    "type": "string",
+                                                    "example": "<string>"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "400",
+                        "content": {
+                            "application/json": {
+                                "examples": {
+                                    "Result": {
+                                        "value": "{}"
+                                    }
+                                },
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {}
+                                }
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "x-readme": {
+        "headers": [],
+        "explorer-enabled": true,
+        "proxy-enabled": true,
+        "samples-enabled": true
+    },
+    "x-readme-fauxas": true
+}
