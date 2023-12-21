@@ -2,6 +2,35 @@ openapi: 3.0.0
 info:
   title: Bank Statement Analysis
   version: '1.0'
+  description: |
+    ## Overview
+
+    The Bank Statement API empowers users to conduct comprehensive analyses on bank statements, extracting valuable insights and crucial financial information. This documentation guides you through the functionalities and usage of this API, enabling you to gain a detailed understanding of the financial health indicated by bank statement files.
+
+    ## Key Features
+
+    1. Analysis of Financial Data  
+      The API performs an in-depth analysis of bank statement files, extracting key financial metrics such as cash flow, revenue, and expenses.
+
+    2. Insight Generation  
+      Generate valuable insights from the bank statement data, providing a clear overview of the financial performance.
+
+    3. Summary Report  
+      Receive a concise summary report that encapsulates the essential financial information derived from the bank statement analysis.
+
+    ## Usage
+
+    To utilize the Bank Statement API effectively, follow these steps:
+
+    1. File Upload  
+      Start by uploading the bank statement files using the designated endpoint.  
+      Retrieve the analysis_id provided in the API response.
+    2. Analysis Execution  
+      Use the obtained analysis_id to execute the analysis and extract financial insights.  
+      The API will process the uploaded bank statement files and generate a comprehensive summary.
+    3. Result Notification  
+      Receive the analysis results via a callback URL registered during the initial upload.  
+      The results include a breakdown of cash flow, revenue, expenses, and other pertinent financial details.
 servers:
   - description: Staging
     url: https://stg-api.finskor.com/app/bank-statement
@@ -22,8 +51,11 @@ paths:
     post:
       tags:
         - bank-statement-analysis
-      summary: Upload
-      description: Upload bank statement files.
+      summary: Upload bank statement file.
+      description: |
+        To begin analyzing bank statements, first, upload the necessary files using the provided API. After the upload, you'll get an analysis_id. This analysis_id is essential for checking and processing each bank statement.
+
+        If you have more than one bank statement to analyze, you can upload them together. Just use the same analysis_id you got from the first upload. This way, you can easily process multiple bank statements into single analysis result.
       operationId: upload
       requestBody:
         content:
@@ -31,6 +63,7 @@ paths:
             schema:
               type: object
               required:
+                - ref_id
                 - file
               properties:
                 analysis_id:
@@ -40,41 +73,64 @@ paths:
                   type: string
                   description: The bank statement file.
                   format: binary
+
       responses:
         '200':
-          description: '200'
+          description: 'Success response'
           content:
             application/json:
               examples:
                 Result:
-                  value: "{\n\t\"data\": {\n  \t\"analysis_id\": \"<string>\"\n  }\n}"
+                  value: |
+                    {
+                      "message": "File has been uploaded successfully."
+                      "data": {
+                        "analysis_id": "<string>"
+                      }
+                    }
               schema:
                 type: object
                 properties:
+                  message:
+                    type: string
+                    example:
+                          - File has been uploaded successfully.
                   data:
                     type: object
                     properties:
                       analysis_id:
                         type: string
                         example:
-                          - <string>
+                          - 42d52bfc20f24a2ab3a55e8369599057
         '400':
-          description: '400'
+          description: 'Bad response'
           content:
             application/json:
               examples:
                 Result:
-                  value: '{}'
+                  value: |
+                    {
+                      "message": "Invalid file"
+                    }
               schema:
                 type: object
-                properties: {}
+                properties:
+                  message:
+                    type: string
+                    example:
+                          - Invalid file
       deprecated: false
   /analyze/{analysis_id}:
     post:
       tags:
         - bank-statement-analysis
-      summary: Analyze
-      description: Analyze bank statement files that have been uploaded before.
+      summary: Analyze bank statement files that have been uploaded before.
+      description: |
+        This API offers a summary of a company's financial health, highlighting key figures such as revenue, profit, and cash flow.
+
+        After uploading the necessary files earlier, you can kick off the analysis by using the analysis_id from the previous upload API call.
+
+        We'll inform you of the results through a callback URL that has been registered to us.
       operationId: analyze
       parameters:
         - name: analysis_id
@@ -84,37 +140,75 @@ paths:
           required: true
       responses:
         '200':
-          description: '200'
+          description: 'Success response'
           content:
             application/json:
               examples:
                 Result:
-                  value: "{\n\t\"data\": {\n  \t\"analysis_id\": \"<string>\"\n  }\n}"
+                  value: |
+                    {
+                      "message": "Bank statement analysis is in progress.",
+                      "data": {
+                        "analysis_id": "<string>",
+                        "status": "IN_PROGRESS"
+                      }
+                    }
               schema:
                 type: object
                 properties:
+                  message:
+                    type: string
+                    example:
+                          - Bank statement analysis is in progress.
                   data:
                     type: object
                     properties:
                       analysis_id:
                         type: string
                         example:
-                          - <string>
+                          - 42d52bfc20f24a2ab3a55e8369599057
+                      status:
+                        type: string
+                        example:
+                          - IN_PROGRESS
         '400':
-          description: '400'
+          description: 'Bad response'
           content:
             application/json:
               examples:
                 Result:
-                  value: '{}'
+                  value: |
+                    {
+                      "message": "Unable to analyze bank statement files.",
+                      "data": {
+                        "analysis_id": "42d52bfc20f24a2ab3a55e8369599057",
+                        "status": "INVALID"
+                      }
+                    }
               schema:
                 type: object
-                properties: {}
+                properties:
+                  message:
+                    type: string
+                    example:
+                          - Unable to analyze bank statement files.
+                  data:
+                    type: object
+                    properties:
+                      analysis_id:
+                        type: string
+                        example:
+                          - 42d52bfc20f24a2ab3a55e8369599057
+                      status:
+                        type: string
+                        example:
+                          - INVALID
       deprecated: false
   /yourdomain-com-path-to-your-callback-url:
     post:
       tags:
         - bank-statement-analysis
+      summary: The callback of the bank statement analysis result.
       description: |
         When we finish analyzing the bank statement in our system, we will notify / send you the callback to inform you about the result.
         
@@ -128,14 +222,15 @@ paths:
         --header 'Accept: application/json' \
         --data '{
             "data": {
-                "file_url": "<string>",
-                "analysis_id": "<string>"
+                "analysis_id": "42d52bfc20f24a2ab3a55e8369599057",
+                "file_url": "https://link/to/the/file/result/url",
+                "status": "COMPLETED"
             }
         }'
         ```
       responses:
         '200':
-          description: '200'
+          description: 'Success response'
 x-readme:
   headers: []
   explorer-enabled: true
