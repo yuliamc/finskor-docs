@@ -64,9 +64,10 @@ paths:
       description: |
         To start examining bank statements, you should use this API to upload the required files.
 
-        If you upload without specifying an analysis_id or provide an empty analysis_id, the API will generate a new analysis_id as part of the response data. If you use an existing analysis_id from a previous upload, the API will combine the new files with the ones associated with that analysis_id, allowing you to process multiple bank statement files as a single group.
+        If you upload without specifying an analysis_id or provide an empty analysis_id, the API will generate a new analysis_id as part of the response data. If you use an existing analysis_id from a previous upload, the system will combine the new files with the ones associated with that analysis_id, allowing you to process multiple bank statement files as a single group.
 
-        This feature is handy when dealing with a borrower or account holder who has, for instance, six months' worth of bank statement files for the same account.
+        Combining multiple bank statement files is handy when dealing with a borrower or account holder who has, for instance, six months worth of bank statement files for the same account.
+        So that you can see the analysis result summary side by side.
 
       operationId: upload
       requestBody:
