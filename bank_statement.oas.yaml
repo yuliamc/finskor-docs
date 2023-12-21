@@ -59,9 +59,12 @@ paths:
         - bank-statement-analysis
       summary: Upload bank statement file.
       description: |
-        To begin analyzing bank statements, first, upload the necessary files using the provided API. After the upload, you'll get an analysis_id. This analysis_id is essential for checking and processing each bank statement.
+        To start examining bank statements, you should use this API to upload the required files.
 
-        If you have more than one bank statement to analyze, you can upload them together. Just use the same analysis_id you got from the first upload. This way, you can easily process multiple bank statements into single analysis result.
+        If you upload without specifying an analysis_id or provide an empty analysis_id, the API will generate a new analysis_id as part of the response data. If you use an existing analysis_id from a previous upload, the API will combine the new files with the ones associated with that analysis_id, allowing you to process multiple bank statement files as a single group.
+
+        This feature is handy when dealing with a borrower or account holder who has, for instance, six months' worth of bank statement files for the same account.
+
       operationId: upload
       requestBody:
         content:
@@ -134,9 +137,9 @@ paths:
       description: |
         This API offers a summary of a company's financial health, highlighting key figures such as revenue, profit, and cash flow.
 
-        After uploading the necessary files earlier, you can kick off the analysis by using the analysis_id from the previous upload API call.
+        After uploading the necessary files earlier, you can kick off the analysis by calling this API with the analysis_id from the previous upload API response data.
 
-        We'll inform you of the results through a callback URL that has been registered to us.
+        We will inform you of the results through a callback URL that has been registered to us.
       operationId: analyze
       parameters:
         - name: analysis_id
