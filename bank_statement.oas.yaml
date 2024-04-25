@@ -42,9 +42,9 @@ info:
 
 servers:
   - description: Staging
-    url: https://stg-api.finskor.com/app/bank-statement
+    url: https://stg-bsapp.api.finskor.com/app/bank-statement
   - description: Production
-    url: https://api.finskor.com/app/bank-statement
+    url: https://bsapp.api.finskor.com/app/bank-statement
 components:
   securitySchemes:
     sec0:
